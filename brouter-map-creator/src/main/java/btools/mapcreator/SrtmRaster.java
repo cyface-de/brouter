@@ -15,7 +15,7 @@ public class SrtmRaster
   public double xllcorner;
   public double yllcorner;
   public double cellsize;
-  public short[] eval_array;
+  public double[] eval_array;
   public short noDataValue;
 
   public boolean usingWeights = false;
@@ -54,9 +54,9 @@ public class SrtmRaster
     return missingData ? Short.MIN_VALUE : (short)(eval*4);
   }
 
-  private short get( int r, int c )
+  private double get( int r, int c )
   {
-    short e = eval_array[ (nrows-1-r)*ncols + c ];
+    double e = eval_array[ (nrows-1-r)*ncols + c ];
     if ( e == Short.MIN_VALUE ) missingData = true;
     return e;
   }
@@ -130,7 +130,7 @@ public class SrtmRaster
     {
       for( int iy = 0; iy < ny; iy ++ )
       {
-        short val = get( row + iy - my, col + ix - mx );
+        double val = get( row + iy - my, col + ix - mx );
         rmf.addSample( w.getWeight( ix, iy ), val );
       }
     }
@@ -285,7 +285,7 @@ public class SrtmRaster
     }
     return shiftWeights;
   }
-  
+
   @Override
   public String toString()
   {

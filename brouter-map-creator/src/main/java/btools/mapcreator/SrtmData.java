@@ -69,6 +69,7 @@ public class SrtmData
     for ( ;; )
     {
       linenr++;
+      // Header of the AAIGrid/Arc/Info ASCII Grid file
       if ( linenr <= 6 )
       {
         String line = br.readLine();
@@ -86,42 +87,60 @@ public class SrtmData
         {
           // nodata ignored here ( < -250 assumed nodata... )
           // raster.noDataValue = Short.parseShort( secondToken( line ) );
-          raster.eval_array = new short[raster.ncols * raster.nrows];
+          raster.eval_array = new double[raster.ncols * raster.nrows];
         }
       }
       else
       {
-        int row = 0;
-        int col = 0;
-        int n = 0;
-        boolean negative = false;
+        int row = 0; // Current grid row of the number to be read
+        int col = 0; // Current grid column of the number to be read
+        double number = 0; // Absolute value of the number to be read
+        boolean negative = false; // True if the 'number' had to be multiplied by -1
+        int fractionNumber = 0; // Absolute value of the fractional part, e.g. "75" for .75
+        double fraction = 0.0; // If > 0: fractional part is: fractionNumber/fraction, e.g. 75/100 for .75
         for ( ;; )
         {
-          int c = br.read();
-          if ( c < 0 )
+          int character = br.read();
+          if ( character < 0 )
             break;
-          if ( c == ' ' )
+          if ( character == ' ' )
           {
+            if ( fraction > 0 )
+              number = number + fractionNumber / fraction;
             if ( negative )
-              n = -n;
-            short val = n < -250 ? Short.MIN_VALUE : (short) (n);
+              number = -number;
 
-            raster.eval_array[row * raster.ncols + col] = val;
+            // Assume number < 250 as no-data, replace with minimum value
+            double value = number < -250 ? Short.MIN_VALUE : number;
+            raster.eval_array[row * raster.ncols + col] = value;
+
+            // Increase row number if the last column was reached
             if ( ++col == raster.ncols )
             {
               col = 0;
               ++row;
             }
-            n = 0;
+            number = 0;
             negative = false;
+            fraction = 0;
           }
-          else if ( c >= '0' && c <= '9' )
+          else if ( character >= '0' && character <= '9' )
           {
-            n = 10 * n + ( c - '0' );
+            boolean fractionalDigit = fraction > 0;
+            if (!fractionalDigit) {
+              number = 10 * number + (character - '0');
+            } else {
+              fraction *= 10;
+              fractionNumber = 10 * fractionNumber + (character - '0');
+            }
           }
-          else if ( c == '-' )
+          else if ( character == '-' )
           {
             negative = true;
+          }
+          else if ( character == '.' )
+          {
+            fraction = 1; // means the next chars are fractional digits
           }
         }
         break;

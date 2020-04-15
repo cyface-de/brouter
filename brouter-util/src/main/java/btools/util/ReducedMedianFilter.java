@@ -6,13 +6,13 @@ package btools.util;
 public final class ReducedMedianFilter
 {
   private int nsamples;
-  private double[] weights;
-  private int[] values;
+  private final double[] weights;
+  private final double[] values;
 
   public ReducedMedianFilter( int size )
   {
     weights = new double[size];
-    values = new int[size];
+    values = new double[size];
   }
 
   public void reset()
@@ -20,7 +20,7 @@ public final class ReducedMedianFilter
     nsamples = 0;
   }
 
-  public void addSample( double weight, int value )
+  public void addSample( double weight, double value )
   {
     if ( weight > 0. )
     {
@@ -54,20 +54,20 @@ public final class ReducedMedianFilter
     return totalValue / totalWeight;
   }
 
-  
+
   private void removeEdgeWeight( double excessWeight, boolean high )
   {
      while ( excessWeight > 0. )
      {
        // first pass to find minmax value
        double totalWeight = 0.;
-       int minmax = 0;
+       double minmax = 0;
        for( int i=0; i<nsamples; i++ )
        {
          double w = weights[i];
          if ( w > 0. )
          {
-           int v = values[i];
+           double v = values[i];
            if ( totalWeight == 0. || ( high ? v > minmax : v < minmax ) )
            {
              minmax = v;
