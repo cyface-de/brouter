@@ -43,10 +43,10 @@ public class RasterCoder
     raster.yllcorner = dis.readDouble();
     raster.cellsize = dis.readDouble();
     raster.noDataValue = dis.readShort();
-    raster.eval_array = new short[raster.ncols * raster.nrows];
+    raster.eval_array = new double[raster.ncols * raster.nrows];
 
     _decodeRaster(raster, is);
-    
+
     raster.usingWeights = raster.ncols > 6001;
 
     long t1 = System.currentTimeMillis();
@@ -60,15 +60,15 @@ public class RasterCoder
     MixCoderDataOutputStream mco = new MixCoderDataOutputStream(os);
     int nrows = raster.nrows;
     int ncols = raster.ncols;
-    short[] pixels = raster.eval_array;
+    double[] pixels = raster.eval_array;
     int colstep = raster.halfcol ? 2 : 1;
 
     for (int row = 0; row < nrows; row++)
     {
-      short lastval = Short.MIN_VALUE; // nodata
+      double lastval = Short.MIN_VALUE; // nodata
       for (int col = 0; col < ncols; col += colstep )
       {
-        short val = pixels[row * ncols + col];
+        double val = pixels[row * ncols + col];
         if ( val == -32766 )
         {
           val = lastval; // replace remaining (border) skips
@@ -77,7 +77,7 @@ public class RasterCoder
         {
           lastval = val;
         }
-        
+
         // remap nodata
         int code = val == Short.MIN_VALUE ? -1 : ( val < 0 ? val-1 : val );
         mco.writeMixed( code );
@@ -99,13 +99,13 @@ public class RasterCoder
       for (int col = 0; col < ncols; col += colstep )
       {
         int code = mci.readMixed();
-        
+
         // remap nodata
-        int v30 = code == -1 ? Short.MIN_VALUE : ( code < 0 ? code + 1 : code ); 
+        int v30 = code == -1 ? Short.MIN_VALUE : ( code < 0 ? code + 1 : code );
         if ( raster.usingWeights && v30 > -32766 )
         {
           v30 *= 2;
-        } 
+        }
         pixels[row * ncols + col] = (short) ( v30 );
       }
       if ( raster.halfcol )
