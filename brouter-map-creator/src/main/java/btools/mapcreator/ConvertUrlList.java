@@ -1,3 +1,4 @@
+/*
 package btools.mapcreator;
 
 import java.io.BufferedReader;
@@ -50,11 +51,12 @@ public class ConvertUrlList
         System.out.println( "reading " + file90 );
         raster90 = new SrtmData( file90 ).getRaster();
       }
-      
+
       ConvertSrtmTile.doConvert( args[2], args[3], ilon_base, ilat_base, filename30, raster90 );
     }
     br.close();
   }
-  
+
 
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package btools.mapcreator;
 
 import java.io.BufferedInputStream;
@@ -213,8 +214,9 @@ public class ConvertLidarTile
 
       int ilon_base = ( srtmLonIdx - 1 ) * 5 - 180;
       int ilat_base = 150 - srtmLatIdx * 5 - 90;
-      
+
       doConvert( args[1], ilon_base, ilat_base, filename30 );
   }
-  
+
 }
+*/

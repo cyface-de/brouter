@@ -1,3 +1,4 @@
+/*
 package btools.mapcreator;
 
 import java.io.*;
@@ -250,10 +251,10 @@ public class ConvertSrtmTile
         }
       }
     }
-    
-    for(int i=1; i<100;i++) System.out.println( "diff[" + (i-50) + "] = " + diffs[i] ); 
+
+    for(int i=1; i<100;i++) System.out.println( "diff[" + (i-50) + "] = " + diffs[i] );
     System.out.println( "datacells=" + datacells + " mismatch%=" + (100.*mismatches)/datacells );
-btools.util.MixCoderDataOutputStream.stats();    
+btools.util.MixCoderDataOutputStream.stats();
     // test( raster );
     // raster.calcWeights( 50. );
     // test( raster );
@@ -309,3 +310,4 @@ btools.util.MixCoderDataOutputStream.stats();
   }
 
 }
+*/
