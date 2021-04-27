@@ -8,6 +8,9 @@
 
 ---context:global
 
+# CHANGED -------------------------->
+assign processUnusedTags = true
+
 assign downhillcost 0
 assign downhillcutoff 0
 assign uphillcost 0

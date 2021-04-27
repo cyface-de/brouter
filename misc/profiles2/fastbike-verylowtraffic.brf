@@ -15,6 +15,9 @@
   
 ---context:global   # following code refers to global config
 
+# CHANGED -------------------------->
+assign processUnusedTags = true
+
 # to generate turn instructions, adapt the mode by need 
 assign   turnInstructionMode  1   # 0=none, 1=auto-choose, 2=locus-style, 3=osmand-style
 
@@ -136,15 +139,15 @@ assign onewaypenalty =
 assign surfacepenalty
  switch highway=unclassified|service|track|road|path|footway|cycleway
         switch surface=asphalt                                       0
-        switch surface=paved switch smoothness=good|excellent        0  0.1   # befestigte(harte)Oberfläsche
+        switch surface=paved switch smoothness=good|excellent        0  0.1   # befestigte(harte)Oberflï¿½sche
         switch concrete=plates                                       1        # Betonplattenwege
         switch surface=concrete|paving_stones|wood|metal             0.7      # Beton, Pflastersteine, Holz, Metall
         switch surface=cobblestone                                   2        # Kopfsteinpflaster
         switch concrete=lanes                                        3        # Betonspurplatten
-        switch surface=fine_gravel|compacted                         4        # Splitt,verdichtete Oberfläsche  
+        switch surface=fine_gravel|compacted                         4        # Splitt,verdichtete Oberflï¿½sche  
         switch surface=sett|grass_paver                              5        # behauene Pflastersteine, Rasengittersteine 
         switch surface=gravel|sand|pebblestone|unpaved               10       # Schotter, Sand, Kies, unbefestigt
-        switch surface=ground|grass|dirt|earth|mud|clay              25       # naturbelassene Oberfläsche, Gras, Schutz Schlamm...
+        switch surface=ground|grass|dirt|earth|mud|clay              25       # naturbelassene Oberflï¿½sche, Gras, Schutz Schlamm...
 # if "surface" is not defined, for service and road asphalt is probable
         switch surface= 
                switch highway=service|road                           0.1 

@@ -9,6 +9,9 @@
 
 ---context:global
 
+# CHANGED -------------------------->
+assign processUnusedTags = true
+
 assign   consider_elevation       1    # 0 as default, otherwise less interesting flat roads are chosen.
 assign   shortest_way             0    # 0 as default
 

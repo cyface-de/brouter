@@ -1,5 +1,8 @@
 ---context:global   # following code refers to global config
 
+# CHANGED -------------------------->
+assign processUnusedTags = true
+
 # the elevation parameters
 
 assign downhillcost 0
